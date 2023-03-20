@@ -6,7 +6,27 @@ fromWritable(writable) // → sink → Promise
 fromTransform(transform) // → through
 ```
 
-## Example
+## Examples
+
+### `fetch`
+
+```js
+import pull from 'https://esm.sh/pull-stream@3.7.0'
+import {
+	fromReadable,
+	fromTransform,
+} from 'https://deno.land/x/pull_stream_from_web@v1.0.0/index.js'
+
+fetch('https://www.google.com').then((r) =>
+	pull(
+		fromReadable(r.body),
+		fromTransform(new TextDecoderStream()),
+		pull.concat(console.log)
+	)
+)
+```
+
+### [Deno](https://deno.land/) `stdio`
 
 ```js
 import pull from 'https://esm.sh/pull-stream@3.7.0'
